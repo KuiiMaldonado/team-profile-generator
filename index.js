@@ -77,17 +77,14 @@ async function getInternInfo() {
 }
 
 function isTeamFinished(option) {
-    if(option === 'Finish my team')
-        return true;
-    else
-        return false;
+    return option === 'Finish my team';
 }
 
 async function init() {
 
     const engineersArray = [];
     const internsArray = [];
-    //Ask for manager's data
+
     const managerInfo = await getManagerInfo();
     const {name:managerName, id:managerID, email:managerEmail, officeNumber} = managerInfo;
     const manager = new Manager(managerName, managerID, managerEmail, officeNumber);
@@ -112,7 +109,6 @@ async function init() {
         }
     }
     const employeesArray = [manager, ...engineersArray, ...internsArray];
-    console.log(employeesArray);
 }
 
 init().then(() => console.log('Thanks for using this app'));

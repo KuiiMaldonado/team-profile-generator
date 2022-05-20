@@ -60,11 +60,30 @@ async function getManagerInfo() {
     return employeeInfo;
 }
 
+async function getEngineerInfo() {
+    const employeeInfo = await getEmployeeInfo(false, true, false);
+    return employeeInfo;
+}
+
+async function getInternInfo() {
+    const employeeInfo = await getEmployeeInfo(false, false, true);
+    return employeeInfo;
+}
+
 async function init() {
+
+    // let name, id, email, officeNumber, github, school;
+    //Ask for manager's data
     const managerInfo = await getManagerInfo();
-    const {name, id, email, officeNumber} = managerInfo;
-    const manager = new Manager(name, id, email, officeNumber);
-    console.log(manager);
+    const {name:managerName, id:managerID, email:managerEmail, officeNumber} = managerInfo;
+    const manager = new Manager(managerName, managerID, managerEmail, officeNumber);
+    console.log((manager));
+
+    //Ask for engineer's info
+    // const engineerInfo = await getManagerInfo();
+    // {name, id, email, github} = engineerInfo;
+    // const engineer = new Engineer(name, id, email, github);
+    // console.log(manager);
 }
 
 init();

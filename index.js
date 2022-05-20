@@ -40,13 +40,13 @@ async function getEmployeeInfo(isManager, isEngineer, isIntern){
         },
         {
             type: "input",
-            message: "What's the engineer github",
+            message: "What's the engineer's github username?",
             name: 'github',
             when: isEngineer,
         },
         {
             type: "input",
-            message: "What's the intern's school",
+            message: "What's the intern's school?",
             name: 'school',
             when: isIntern,
         },
@@ -85,11 +85,12 @@ function isTeamFinished(option) {
 
 async function init() {
 
+    const engineersArray = [];
+    const internsArray = [];
     //Ask for manager's data
     const managerInfo = await getManagerInfo();
     const {name:managerName, id:managerID, email:managerEmail, officeNumber} = managerInfo;
     const manager = new Manager(managerName, managerID, managerEmail, officeNumber);
-    console.log(manager.getName());
 
     while (true) {
         const option = await menu();
@@ -98,19 +99,20 @@ async function init() {
         else {
             if (option.menuOption === 'Add engineer') {
                 const engineerInfo = await getEngineerInfo();
+                const {name:engineerName, id:engineerID, email:engineerEmail, github} = engineerInfo;
+                const engineer = new Engineer(engineerName, engineerID, engineerEmail, github);
+                engineersArray.push(engineer);
             }
             else {
-                const engineerInfo = await getInternInfo();
+                const internInfo = await getInternInfo();
+                const {name:internName, id:internID, email:internEmail, school} = internInfo;
+                const intern = new Intern(internName, internID, internInfo, school);
+                internsArray.push(intern);
             }
         }
     }
-
-
-    //Ask for engineer's info
-    // const engineerInfo = await getManagerInfo();
-    // {name, id, email, github} = engineerInfo;
-    // const engineer = new Engineer(name, id, email, github);
-    // console.log(manager);
+    const employeesArray = [manager, ...engineersArray, ...internsArray];
+    console.log(employeesArray);
 }
 
 init().then(() => console.log('Thanks for using this app'));

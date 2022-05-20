@@ -14,70 +14,97 @@ const inputIsNaN = (x) => {
 
 async function getEmployeeInfo(isManager, isEngineer, isIntern){
 
-    const result = await inquirer.prompt([
+    return await inquirer.prompt([
         {
             type: "input",
             message: "What's the employee name?",
-            name:'name',
+            name: 'name',
         },
         {
             type: "input",
             message: "What's the employee id?",
-            name:'id',
+            name: 'id',
             validate: inputIsNaN,
         },
         {
             type: "input",
             message: "What's the employee email?",
-            name:'email',
+            name: 'email',
         },
         {
             type: "input",
             message: "What's the team manager's office number?",
-            name:'officeNumber',
+            name: 'officeNumber',
             validate: inputIsNaN,
             when: isManager,
         },
         {
             type: "input",
             message: "What's the engineer github",
-            name:'github',
+            name: 'github',
             when: isEngineer,
         },
         {
             type: "input",
             message: "What's the intern's school",
-            name:'school',
+            name: 'school',
             when: isIntern,
         },
     ]);
-    console.log('Termina async');
-    return result;
+}
+
+async function menu() {
+    return await inquirer.prompt([
+        {
+            type: 'list',
+            message: 'Please select an option: ',
+            name: 'menuOption',
+            choices: ['Add engineer', 'Add intern', 'Finish my team'],
+        },
+    ]);
 }
 
 async function getManagerInfo() {
-    const employeeInfo = await getEmployeeInfo(true, false, false);
-    return employeeInfo;
+    return await getEmployeeInfo(true, false, false);
 }
 
 async function getEngineerInfo() {
-    const employeeInfo = await getEmployeeInfo(false, true, false);
-    return employeeInfo;
+    return await getEmployeeInfo(false, true, false);
 }
 
 async function getInternInfo() {
-    const employeeInfo = await getEmployeeInfo(false, false, true);
-    return employeeInfo;
+    return await getEmployeeInfo(false, false, true);
+}
+
+function isTeamFinished(option) {
+    if(option === 'Finish my team')
+        return true;
+    else
+        return false;
 }
 
 async function init() {
 
-    // let name, id, email, officeNumber, github, school;
     //Ask for manager's data
     const managerInfo = await getManagerInfo();
     const {name:managerName, id:managerID, email:managerEmail, officeNumber} = managerInfo;
     const manager = new Manager(managerName, managerID, managerEmail, officeNumber);
-    console.log((manager));
+    console.log(manager.getName());
+
+    while (true) {
+        const option = await menu();
+        if(isTeamFinished(option.menuOption))
+            break;
+        else {
+            if (option.menuOption === 'Add engineer') {
+                const engineerInfo = await getEngineerInfo();
+            }
+            else {
+                const engineerInfo = await getInternInfo();
+            }
+        }
+    }
+
 
     //Ask for engineer's info
     // const engineerInfo = await getManagerInfo();
@@ -86,4 +113,4 @@ async function init() {
     // console.log(manager);
 }
 
-init();
+init().then(() => console.log('Thanks for using this app'));

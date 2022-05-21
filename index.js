@@ -1,8 +1,8 @@
 const inquirer = require('inquirer');
 const fs = require('fs');
-const Manager = require('./manager');
-const Engineer = require('./engineer');
-const Intern = require('./intern');
+const Manager = require('./lib/manager');
+const Engineer = require('./lib/engineer');
+const Intern = require('./lib/intern');
 
 const inputIsNaN = (x) => {
     if(isNaN(x)) {

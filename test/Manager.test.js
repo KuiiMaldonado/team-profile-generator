@@ -26,7 +26,7 @@ describe('Manager', () => {
 
         it("Should throw an error if 'id' is not a number", () => {
             const cb = () => new Manager("Cuitlahuac", "uno", 'cuitlahuac.maldonado@gmail.com', 51);
-            const err = new Error("Expected parameter 'age' to be a non-negative number");
+            const err = new Error("Expected parameter 'id' to be a non-negative number");
 
             expect(cb).toThrowError(err);
         });

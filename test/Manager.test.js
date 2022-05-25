@@ -1,4 +1,5 @@
 const Manager = require('../lib/manager');
+const Intern = require("../lib/intern");
 
 describe('Manager', () => {
     describe('Initialization', () => {
@@ -63,6 +64,12 @@ describe('Manager', () => {
             const manager = new Manager('Cuitlahuac', 1, 'cuitlahuac.maldonado@gmail.com', 51);
 
             expect(manager.getEmail()).toEqual('cuitlahuac.maldonado@gmail.com');
+        });
+
+        it('Should return the office number of the employee object', () => {
+            const manager = new Manager('Cuitlahuac', 1, 'cuitlahuac.maldonado@gmail.com', 51);
+
+            expect(manager.getOfficeNumber()).toEqual(51);
         });
 
         it('Should return the role of the employee object', () => {
